@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>contructor - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="FrameClient.html">FrameClient</a><ul class='methods'><li data-type='method'><a href="FrameClient.html#setDispatcher">setDispatcher</a></li><li data-type='method'><a href="FrameClient.html#setRegistry">setRegistry</a></li></ul></li><li></li><li><a href="FrameCommand.html">FrameCommand</a><ul class='methods'><li data-type='method'><a href="FrameCommand.html#run">run</a></li><li data-type='method'><a href="FrameCommand.html#validateInfo">validateInfo</a></li></ul></li><li><a href="FrameDispatcher.html">FrameDispatcher</a><ul class='methods'><li data-type='method'><a href="FrameDispatcher.html#handleMessage">handleMessage</a></li></ul></li><li><a href="FrameRegistry.html">FrameRegistry</a><ul class='methods'><li data-type='method'><a href="FrameRegistry.html#registerCommand">registerCommand</a></li><li data-type='method'><a href="FrameRegistry.html#registerCommands">registerCommands</a></li><li data-type='method'><a href="FrameRegistry.html#registerCommandsInDir">registerCommandsInDir</a></li><li data-type='method'><a href="FrameRegistry.html#registerDefaultCommands">registerDefaultCommands</a></li><li data-type='method'><a href="FrameRegistry.html#registerDefaultGroups">registerDefaultGroups</a></li><li data-type='method'><a href="FrameRegistry.html#registerDefaults">registerDefaults</a></li><li data-type='method'><a href="FrameRegistry.html#registerGroup">registerGroup</a></li><li data-type='method'><a href="FrameRegistry.html#registerGroups">registerGroups</a></li><li data-type='method'><a href="FrameRegistry.html#setCommandDir">setCommandDir</a></li></ul></li><li><a href="FrameRegistry_contructor.html">contructor</a></li></ul><h3>Events</h3><ul><li><a href="FrameClient.html#event:groupRegister">groupRegister</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">contructor</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+            <span class="ancestors"><a href="FrameRegistry.html">FrameRegistry</a>#</span>
+        
+        contructor
+        </h2>
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+    
+
+    <h4 class="name" id="contructor"><span class="type-signature"></span>new contructor<span class="signature">(client<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="registry.js.html">registry.js</a>, <a href="registry.js.html#line15">line 15</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    Creates a registry
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>client</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="FrameClient.html">FrameClient</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The client to initialise the registery with</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="commands"><span class="type-signature"></span>commands<span class="type-signature"> :Collection.&lt;string, <a href="FrameCommand.html">FrameCommand</a>></span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="registry.js.html">registry.js</a>, <a href="registry.js.html#line28">line 28</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    All registered commands, mapped by their name
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Collection.&lt;string, <a href="FrameCommand.html">FrameCommand</a>></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="commandsPath"><span class="type-signature">(nullable) </span>commandsPath<span class="type-signature"> :string</span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="registry.js.html">registry.js</a>, <a href="registry.js.html#line40">line 40</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    Full path to bot's command folder
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="groups"><span class="type-signature"></span>groups<span class="type-signature"> :Collection.&lt;string, CommandGroup></span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="registry.js.html">registry.js</a>, <a href="registry.js.html#line34">line 34</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    All registered groups, mapped by their ID
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Collection.&lt;string, CommandGroup></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="unknownCommand"><span class="type-signature">(nullable) </span>unknownCommand<span class="type-signature"> :<a href="FrameCommand.html">FrameCommand</a></span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="registry.js.html">registry.js</a>, <a href="registry.js.html#line46">line 46</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    Command that will be run when an unkwnown command is used
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="FrameCommand.html">FrameCommand</a></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Thu Sep 09 2021 17:08:37 GMT+0200 (Středoevropský letní čas) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

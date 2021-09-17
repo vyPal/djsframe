@@ -1,2 +1,2 @@
 # djsframe
-A discord.js framework, developed with v13 in mind
+A simple framework to interact with the Discord.js API

@@ -1,0 +1,34 @@
+{
+  "name": "djsframe",
+  "version": "0.0.1",
+  "description": "A simple framework to interact with the Discord.js API",
+  "main": "src/index.js",
+  "scripts": {
+    "docs": "jsdoc -c jsdoc.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vyPal/djsframe.git"
+  },
+  "keywords": [
+    "discord",
+    "discord.js",
+    "djs",
+    "framework",
+    "api"
+  ],
+  "author": "vyPal",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/vyPal/djsframe/issues"
+  },
+  "homepage": "https://github.com/vyPal/djsframe#readme",
+  "type": "module",
+  "devDependencies": {
+    "jsdoc-to-markdown": "^7.0.1"
+  },
+  "dependencies": {
+    "docdash": "^1.2.0",
+    "jsdoc": "^3.6.7"
+  }
+}

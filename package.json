@@ -4,7 +4,7 @@
   "description": "A simple framework to interact with the Discord.js API",
   "main": "src/index.js",
   "scripts": {
-    "docs": "jsdoc -c jsdoc.json"
+    "docs": "jsdoc -c jsdoc.json -P package.json"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
   "homepage": "https://github.com/vyPal/djsframe#readme",
   "type": "module",
   "devDependencies": {
+    "gitbook-cli": "^2.3.2",
     "jsdoc-to-markdown": "^7.0.1"
   },
   "dependencies": {

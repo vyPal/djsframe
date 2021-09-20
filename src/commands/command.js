@@ -1,6 +1,5 @@
 /**
  * Class for creating a new command
- * @class FrameCommand
  */
 class FrameCommand {
   /**
@@ -19,7 +18,6 @@ class FrameCommand {
 
   /**
    * Creates the command instance
-   * @constructor
    * @param {FrameClient} client - The client to bind the command to
    * @param {CommandInfo} info - The info about the command
    */

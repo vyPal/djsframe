@@ -4,7 +4,6 @@ import FrameDispatcher from './dispatcher.js';
 
 /**
  * Discord.js modified Client with a built-in command framework
- * @class FrameClient
  * @extends {Client}
  */
 class FrameClient extends Discord.Client {
@@ -15,7 +14,6 @@ class FrameClient extends Discord.Client {
    */
 
   /**
-   * @constructor
    * @param {FrameClientOptions} options - The options for the new client
    */
   constructor(options = {}) {

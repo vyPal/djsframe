@@ -1,11 +1,9 @@
 /**
  * Class for handling and running commands
- * @class FrameDispatcher
  */
 class FrameDispatcher {
   /**
    * Creates a dispatcher
-   * @constructor
    * @param {FrameClient} client - The client for which the dispatcher is being created
    * @param {FrameRegistry} registry - The registry in which groups and commands are registered
    */

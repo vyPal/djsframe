@@ -9,12 +9,10 @@
  */
 
 /**
- * @class SQLiteProvider
  * Sets up a SQLite database to sotre guild settings
  */
 class SQLiteProvider {
 	/**
-	 * @constructor
 	 * @param {SQLiteDatabase} db - The SQLite database to use for storing settings
 	 */
   constructor(db) {

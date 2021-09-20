@@ -4,7 +4,7 @@
   "description": "A simple framework to interact with the Discord.js API",
   "main": "src/index.js",
   "scripts": {
-    "docs": "jsdoc -c jsdoc.json -P package.json"
+    "docs": "jsdoc -c jsdoc.json"
   },
   "repository": {
     "type": "git",

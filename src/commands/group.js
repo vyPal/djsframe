@@ -1,8 +1,5 @@
-import { Collection } from 'discord.js';
-
 /**
  * Class for storing info about a group as an object
- * @class FrameGroup
  */
 class FrameGroup {
   /**

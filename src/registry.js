@@ -6,12 +6,10 @@ import FrameGroup from './commands/group.js';
 
 /**
  * Class for registering and searching for commands and groups
- * @class FrameRegistry
  */
 class FrameRegistry {
   /**
    * Creates a registry
-   * @constructor
    * @param {FrameClient} [client] - The client to initialise the registery with
    */
   constructor(client) {

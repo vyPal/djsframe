@@ -2,7 +2,7 @@
   "plugins": [],
   "recurseDepth": 10,
   "source": {
-    "include": ["src", "src/commands", "src/providers/sqlite.js"],
+    "include": ["src", "src/commands", "src/providers/sqlite.js", "README.md"],
     "includePattern": ".+\\.js(doc|x)?$",
     "excludePattern": "(^|\\/|\\\\)_"
   },

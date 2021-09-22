@@ -1,6 +1,6 @@
 {
   "name": "djsframe",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A simple framework to interact with the Discord.js API",
   "main": "src/index.js",
   "scripts": {

@@ -52,6 +52,17 @@ class FrameDispatcher {
       args = args.slice(1);
       let command = this.client.registry.commands.get(commandName.toLowerCase());
       command.run(message, args);
+    }else if(starttype === 2) {
+      let args = message.content.split(' ');
+      let commandName = args[1];
+      args = args.slice(2);
+      let command = this.client.registry.commands.get(commandName.toLowerCase());
+      command.run(message, args);
+    }else if(starttype === 3) {
+      let args = message.options;
+      let commandName = message.commandName;
+      let command = this.client.registry.commands.get(commandName.toLowerCase());
+      command.runSlash(interaction, args);
     }
   }
 }

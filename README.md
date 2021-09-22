@@ -1,2 +1,2 @@
-# djsframe
-A simple framework to interact with the Discord.js API using the [discord.js](https://discord.js.org) package.
+# DJSFrame
+DJSFrame is a very simple and open-source framework to easily build your discord bot. DJSFrame was made to feel familiar to anyone who has used Discord.js's commando. Commando was an awesome framework, but sadly, with the releas of Discord.js v13 the framework was no longer going to be supported. Since commando was a great library, and I liked many things about it (speed, ease of use, ...) I decided to make DJSFrame, a simple framework for the Discord.js library, that would feel familiar, be easy to use, but also had all the great new features that they added in Discord.js v13

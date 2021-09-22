@@ -1,6 +1,7 @@
 import Discord from 'discord.js';
 import FrameRegistry from './registry.js';
 import FrameDispatcher from './dispatcher.js';
+import SQLiteProvider from './providers/sqlite.js';
 
 /**
  * Discord.js modified Client with a built-in command framework
@@ -45,6 +46,13 @@ class FrameClient extends Discord.Client {
   setRegistry(reg) {
     if(!reg instanceof FrameRegistry) throw new TypeError('reg must be of type FrameRegistry');
     this.registry = reg;
+    /**
+     * When the registry for the client is changed
+     * @event FrameClient#registryChange
+     * @param {FrameClient} client
+     * @param {FrameRegistry} registry
+     */
+    this.emit('registryChange', this, reg);
     return this;
   }
 
@@ -55,17 +63,36 @@ class FrameClient extends Discord.Client {
    */
    setDispatcher(dsp) {
     if(!reg instanceof FrameDispatcher) throw new TypeError('dsp must be of type FrameDispathcer');
-    this.dispatcher = dsp;reg;
+    this.dispatcher = dsp;
+
+    /**
+     * When the dispatcher for the client is changed
+     * @event FrameClient#dispatcherChange
+     * @param {FrameClient} client
+     * @param {FrameDispatcher} dispatcher
+     */
+    this.emit('dispatcherChange', this, dsp);
     return this;
   }
 
   setProvider(provider) {
-
+    if(!provider instanceof SQLiteProvider) throw new TypeError('provider must be of type SQLiteProvider');
+    this.provider = provider;
+    /**
+     * When the provider for the client is changed
+     * @event FrameClient#providerChange
+     * @param {FrameClient} client
+     * @param {SQLiteProvider} provider
+     */
+    this.emit('providerChange', this, provider);
+    this.provider.init(this);
+    return this;
   }
 
   async login(token) {
     super.login(token);
     this.on('messageCreate', this.dispatcher.handleMessage);
+    if(this.provider) this.provider.init(this);
   }
 }
 

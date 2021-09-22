@@ -140,6 +140,25 @@ class FrameCommand {
   async run(message, args) {
     this.client.emit('warn', 'This command has no run method: ' + this.name);
   }
+
+  /**
+   * Runs a command from a slash command
+   * @param {Interaction} interaction - The interaction that was received from discord
+   * @param {Object} args - The command's arguments
+   * @abstract
+   */
+  async runSlash(interaction, args) {
+    this.client.emit('warn', 'This command has no runSlash method: ' + this.name);
+  }
+
+  /**
+   * Runs when a button is clicked
+   * @param {Interaction} interaction - The button interaction received from discord
+   * @abstract
+   */
+  async button(interaction) {
+    this.client.emit('warn', 'This command has no button method: ' + this.name);
+  }
 }
 
 export default FrameCommand;

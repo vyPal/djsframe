@@ -25,7 +25,6 @@
   "homepage": "https://github.com/vyPal/djsframe#readme",
   "type": "module",
   "devDependencies": {
-    "gitbook-cli": "^2.3.2",
     "jsdoc-to-markdown": "^7.0.1"
   },
   "dependencies": {

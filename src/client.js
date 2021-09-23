@@ -49,8 +49,8 @@ class FrameClient extends Discord.Client {
     /**
      * When the registry for the client is changed
      * @event FrameClient#registryChange
-     * @param {FrameClient} client
-     * @param {FrameRegistry} registry
+     * @param {FrameClient} client - The client that the registry was changed for
+     * @param {FrameRegistry} registry - The newly set registry
      */
     this.emit('registryChange', this, reg);
     return this;
@@ -68,8 +68,8 @@ class FrameClient extends Discord.Client {
     /**
      * When the dispatcher for the client is changed
      * @event FrameClient#dispatcherChange
-     * @param {FrameClient} client
-     * @param {FrameDispatcher} dispatcher
+     * @param {FrameClient} client - The client that the dispatcher was changed for
+     * @param {FrameDispatcher} dispatcher - The newly set dispatcher
      */
     this.emit('dispatcherChange', this, dsp);
     return this;
@@ -81,8 +81,8 @@ class FrameClient extends Discord.Client {
     /**
      * When the provider for the client is changed
      * @event FrameClient#providerChange
-     * @param {FrameClient} client
-     * @param {SQLiteProvider} provider
+     * @param {FrameClient} client - The client that the provider was changed for
+     * @param {SQLiteProvider} provider - The newly set provider
      */
     this.emit('providerChange', this, provider);
     this.provider.init(this);

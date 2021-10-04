@@ -12,6 +12,7 @@ class FrameClient extends Discord.Client {
    * Options for the new FrameClient
    * @typedef {Object} FrameClientOptions
    * @property {string} [commandPrefix=!] - Default prefix for the commands
+   * @property {Array<String>} [owners=[]] - An array of the bot's owners
    */
 
   /**
@@ -19,7 +20,8 @@ class FrameClient extends Discord.Client {
    */
   constructor(options = {}) {
     options = Object.assign({}, {
-      prefix: '!'
+      prefix: '!',
+      owners: []
     }, options);
     super(options);
     
@@ -35,6 +37,10 @@ class FrameClient extends Discord.Client {
      */
     this.dispatcher = new FrameDispatcher(this, this.registry);
 
+    /**
+     * The database provider to use for storing settings
+     * @type {SQLiteProvider}
+     */
     this.provider = null;
   }
 
@@ -75,6 +81,11 @@ class FrameClient extends Discord.Client {
     return this;
   }
 
+  /**
+   * Sets a new database provider to use for storing settings
+   * @param {SQLiteProvider} provider - The new provider to set
+   * @returns {FrameClient} client
+   */
   setProvider(provider) {
     if(!provider instanceof SQLiteProvider) throw new TypeError('provider must be of type SQLiteProvider');
     this.provider = provider;
@@ -87,6 +98,15 @@ class FrameClient extends Discord.Client {
     this.emit('providerChange', this, provider);
     this.provider.init(this);
     return this;
+  }
+
+  /**
+   * Function to check if a user is one of the owners of the bot
+   * @param {User|Snowflake|Message|GuildMember} user - The user to check if he is an owner of the bot
+   * @returns {Boolean} - True if the user is a owner of the bot
+   */
+  isOwner(user) {
+    return this.options.owners.has(this.users.resolve(user).id);
   }
 
   async login(token) {

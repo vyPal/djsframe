@@ -14,6 +14,7 @@ class FrameCommand {
    * @property {Array<String>} [examples=[]] - A list of examples for the command
    * @property {Array<String>} [clientPermissions=[]] - A list of permissions that the client has to have
    * @property {Array<String>} [userPermissions=[]] - A list of permissions that the user has to have
+   * @property {Boolean} [ownerOnly=false] - Whether the command should be restricted to the bot owner
    */
 
   /**

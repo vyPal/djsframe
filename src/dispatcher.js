@@ -42,27 +42,48 @@ class FrameDispatcher {
   /**
    * Handles a command
    * @param {Message|Interaction} message - The message (or interaction) containing the command
-   * @param {Integer} starttype - The type of the command start (1-prefix, 2-mention, 3-interaction)
+   * @param {Integer} [starttype=1] - The type of the command start (1-prefix, 2-mention, 3-interaction)
    * @param {String} [prefix=null] - The prefix used if starttype == 1
    */
-  handleCommand(message, starttype, prefix = null){
+  handleCommand(message, starttype = 1, prefix = null){
     if(starttype === 1) {
       let args = message.content.split(' ');
       let commandName = args[0].slice(prefix.length);
       args = args.slice(1);
       let command = this.client.registry.commands.get(commandName.toLowerCase());
-      command.run(message, args);
+      command.info.clientPermissions.forEach((perm) => {
+        if(!message.guild.me.permissions.has(perm)) return false;
+      });
+      command.info.userPermissions.forEach((perm) => {
+        if(!message.member.permissions.has(perm)) return false;
+      });
+      if(command.info.ownerOnly && !this.client.isOwner(message.member)) return false;
+      return command.run(message, args);
     }else if(starttype === 2) {
       let args = message.content.split(' ');
       let commandName = args[1];
       args = args.slice(2);
       let command = this.client.registry.commands.get(commandName.toLowerCase());
-      command.run(message, args);
+      command.info.clientPermissions.forEach((perm) => {
+        if(!message.guild.me.permissions.has(perm)) return false;
+      });
+      command.info.userPermissions.forEach((perm) => {
+        if(!message.member.permissions.has(perm)) return false;
+      });
+      if(command.info.ownerOnly && !this.client.isOwner(message.member)) return false;
+      return command.run(message, args);
     }else if(starttype === 3) {
       let args = message.options;
       let commandName = message.commandName;
       let command = this.client.registry.commands.get(commandName.toLowerCase());
-      command.runSlash(interaction, args);
+      command.info.clientPermissions.forEach((perm) => {
+        if(!message.guild.me.permissions.has(perm)) return false;
+      });
+      command.info.userPermissions.forEach((perm) => {
+        if(!message.member.permissions.has(perm)) return false;
+      });
+      if(command.info.ownerOnly && !this.client.isOwner(message.member)) return false;
+      return command.runSlash(interaction, args);
     }
   }
 }

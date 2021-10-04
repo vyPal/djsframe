@@ -13,5 +13,6 @@ export {
   FrameDispatcher as Dispatcher,
   FrameCommand,
   FrameCommand as Command,
-  SQLiteProvider
+  SQLiteProvider,
+  SQLiteProvider as SQLite
 }

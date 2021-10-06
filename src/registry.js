@@ -3,6 +3,8 @@ import FrameCommand from './commands/command.js';
 import path from 'path';
 import fs from 'fs';
 import FrameGroup from './commands/group.js';
+import ArgumentType from './types/base.js';
+import { isConstructor } from './util.js';
 
 /**
  * Class for registering and searching for commands and groups
@@ -32,6 +34,12 @@ class FrameRegistry {
      * @type {Collection<string, CommandGroup>}
      */
     this.groups = new Collection();
+
+    /**
+     * All registered types, mapped by their ID
+     * @type {Collection<string, ArgumentType>}
+     */
+    this.types = new Collection();
 
     /**
      * Full path to bot's command folder
@@ -157,62 +165,183 @@ class FrameRegistry {
   }
 
   /**
-   * Adds all default commands and command groups to the registry
-   * @returns {FrameRegistry} registry
-   */
-  registerDefaults() {
-    this.registerDefaultGroups();
-    this.registerDefaultCommands();
-    return this;
-  }
+	 * Registers a single argument type
+	 * @param {ArgumentType|Function} type - Either an ArgumentType instance, or a constructor for one
+	 * @return {FrameRegistry}
+	 * @see {@link FrameRegistry#registerTypes}
+	 */
+	registerType(type) {
+		/* eslint-disable new-cap */
+		if(isConstructor(type, ArgumentType)) type = new type(this.client);
+		else if(isConstructor(type.default, ArgumentType)) type = new type.default(this.client);
+		/* eslint-enable new-cap */
+
+		if(!(type instanceof ArgumentType)) throw new Error(`Invalid type object to register: ${type}`);
+
+		// Make sure there aren't any conflicts
+		if(this.types.has(type.id)) throw new Error(`An argument type with the ID "${type.id}" is already registered.`);
+
+		// Add the type
+		this.types.set(type.id, type);
+
+		/**
+		 * Emitted when an argument type is registered
+		 * @event CommandoClient#typeRegister
+		 * @param {ArgumentType} type - Argument type that was registered
+		 * @param {FrameRegistry} registry - Registry that the type was registered to
+		 */
+		this.client.emit('typeRegister', type, this);
+		this.client.emit('debug', `Registered argument type ${type.id}.`);
+
+		return this;
+	}
+
+	/**
+	 * Registers multiple argument types
+	 * @param {ArgumentType[]|Function[]} types - An array of ArgumentType instances or constructors
+	 * @param {boolean} [ignoreInvalid=false] - Whether to skip over invalid objects without throwing an error
+	 * @return {FrameRegistry}
+	 */
+	registerTypes(types, ignoreInvalid = false) {
+		if(!Array.isArray(types)) throw new TypeError('Types must be an Array.');
+		for(const type of types) {
+			const valid = isConstructor(type, ArgumentType) || isConstructor(type.default, ArgumentType) ||
+				type instanceof ArgumentType || type.default instanceof ArgumentType;
+			if(ignoreInvalid && !valid) {
+				this.client.emit('warn', `Attempting to register an invalid argument type object: ${type}; skipping.`);
+				continue;
+			}
+			this.registerType(type);
+		}
+		return this;
+	}
+
+	/**
+	 * Registers all argument types in a directory. The files must export an ArgumentType class constructor or instance.
+	 * @param {string|RequireAllOptions} options - The path to the directory, or a require-all options object
+	 * @return {FrameRegistry}
+	 */
+	registerTypesIn(options) {
+		const obj = require('require-all')(options);
+		const types = [];
+		for(const type of Object.values(obj)) types.push(type);
+		return this.registerTypes(types, true);
+	}
 
   /**
-   * The options for registering the default groups in the registry
-   * @typedef {Object} RegistryDefaultGroupOptions
-   * @property {Boolean} [util=true] - Whether to register the Utility group
-   */
+	 * Registers the default argument types, groups, and commands. This is equivalent to:
+	 * ```js
+	 * registry.registerDefaultTypes()
+	 * 	.registerDefaultGroups()
+	 * 	.registerDefaultCommands();
+	 * ```
+	 * @return {FrameRegistry}
+	 */
+	registerDefaults() {
+		this.registerDefaultTypes();
+		this.registerDefaultGroups();
+		this.registerDefaultCommands();
+		return this;
+	}
 
-  /**
-   * Adds the default groups to the registry
-   * @param {RegistryDefaultGroupOptions} opts - The options for adding the default groups
-   * @returns {FrameRegistry} registry
-   */
-  registerDefaultGroups(opts = {}) {
-    let options = Object.assign({}, {
-      util: true
-    }, {opts});
-    let defaultGroups = [['util', 'Utility']];
-    defaultGroups.forEach(dg => {
-      if(options[dg[0]] == true) {
-        this.registerGroup(dg[0], dg[1], false);
-      }
-    })
-    return this;
-  }
+	/**
+	 * Registers the default groups ("util" and "commands")
+	 * @return {FrameRegistry}
+	 */
+	registerDefaultGroups() {
+		return this.registerGroups([
+			['commands', 'Commands', true],
+			['util', 'Utility']
+		]);
+	}
 
-  /**
-   * The options for registering the default commands in the registry
-   * @typedef {Object} RegistryDefaultCommandOptions
-   * @property {Boolean} [help=true] - Whether to register the Help command
-   */
+	/**
+	 * Registers the default commands to the registry
+	 * @param {Object} [commands] - Object specifying which commands to register
+	 * @param {boolean} [commands.help=true] - Whether to register the built-in help command
+	 * (requires "util" group and "string" type)
+	 * @param {boolean} [commands.prefix=true] - Whether to register the built-in prefix command
+	 * (requires "util" group and "string" type)
+	 * @param {boolean} [commands.eval=true] - Whether to register the built-in eval command
+	 * (requires "util" group and "string" type)
+	 * @param {boolean} [commands.ping=true] - Whether to register the built-in ping command (requires "util" group)
+	 * @param {boolean} [commands.unknownCommand=true] - Whether to register the built-in unknown command
+	 * (requires "util" group)
+	 * @param {boolean} [commands.commandState=true] - Whether to register the built-in command state commands
+	 * (enable, disable, load, unload, reload, list groups - requires "commands" group, "command" type, and "group" type)
+	 * @return {FrameRegistry}
+	 */
+	registerDefaultCommands(commands = {}) {
+		commands = {
+			help: true, prefix: true, ping: true, eval: true,
+			unknownCommand: true, commandState: true, ...commands
+		};
+		if(commands.help) this.registerCommand(require('./commands/util/help'));
+    /*
+		if(commands.prefix) this.registerCommand(require('./commands/util/prefix'));
+		if(commands.ping) this.registerCommand(require('./commands/util/ping'));
+		if(commands.eval) this.registerCommand(require('./commands/util/eval'));
+		if(commands.unknownCommand) this.registerCommand(require('./commands/util/unknown-command'));
+		if(commands.commandState) {
+			this.registerCommands([
+				require('./commands/commands/groups'),
+				require('./commands/commands/enable'),
+				require('./commands/commands/disable'),
+				require('./commands/commands/reload'),
+				require('./commands/commands/load'),
+				require('./commands/commands/unload')
+			]);
+		}
+    */
+		return this;
+	}
 
-  /**
-   * Adds the default commands to the registry
-   * @param {RegistryDefaultCommandOptions} opts - The options for adding the default commands
-   * @returns {FrameRegistry} registry
-   */
-  registerDefaultCommands(opts = {}) {
-    let options = Object.assign({}, {
-      help: true
-    }, {opts});
-    let defaultCmds = [['util', 'help']];
-    defaultCmds.forEach(dcmd => {
-      if(options[dcmd[1]] == true) {
-        this.registerCommand(require(path.join(__dirname, this.commandsPath, dcmd[0], dcmd[1])));
-      }
-    })
-    return this;
-  }
+	/**
+	 * Registers the default argument types to the registry
+	 * @param {Object} [types] - Object specifying which types to register
+	 * @param {boolean} [types.string=true] - Whether to register the built-in string type
+	 * @param {boolean} [types.integer=true] - Whether to register the built-in integer type
+	 * @param {boolean} [types.float=true] - Whether to register the built-in float type
+	 * @param {boolean} [types.boolean=true] - Whether to register the built-in boolean type
+	 * @param {boolean} [types.user=true] - Whether to register the built-in user type
+	 * @param {boolean} [types.member=true] - Whether to register the built-in member type
+	 * @param {boolean} [types.role=true] - Whether to register the built-in role type
+	 * @param {boolean} [types.channel=true] - Whether to register the built-in channel type
+	 * @param {boolean} [types.textChannel=true] - Whether to register the built-in text-channel type
+	 * @param {boolean} [types.voiceChannel=true] - Whether to register the built-in voice-channel type
+	 * @param {boolean} [types.categoryChannel=true] - Whether to register the built-in category-channel type
+	 * @param {boolean} [types.message=true] - Whether to register the built-in message type
+	 * @param {boolean} [types.customEmoji=true] - Whether to register the built-in custom-emoji type
+	 * @param {boolean} [types.defaultEmoji=true] - Whether to register the built-in default-emoji type
+	 * @param {boolean} [types.command=true] - Whether to register the built-in command type
+	 * @param {boolean} [types.group=true] - Whether to register the built-in group type
+	 * @return {FrameRegistry}
+	 */
+	registerDefaultTypes(types = {}) {
+		types = {
+			string: true, integer: true, float: true, boolean: true,
+			user: true, member: true, role: true, channel: true, textChannel: true,
+			voiceChannel: true, categoryChannel: true, message: true, customEmoji: true,
+			defaultEmoji: true, command: true, group: true, ...types
+		};
+		if(types.string) this.registerType(require('./types/string'));
+		if(types.integer) this.registerType(require('./types/integer'));
+		if(types.float) this.registerType(require('./types/float'));
+		if(types.boolean) this.registerType(require('./types/boolean'));
+		if(types.user) this.registerType(require('./types/user'));
+		if(types.member) this.registerType(require('./types/member'));
+		if(types.role) this.registerType(require('./types/role'));
+		if(types.channel) this.registerType(require('./types/channel'));
+		if(types.textChannel) this.registerType(require('./types/text-channel'));
+		if(types.voiceChannel) this.registerType(require('./types/voice-channel'));
+		if(types.categoryChannel) this.registerType(require('./types/category-channel'));
+		if(types.message) this.registerType(require('./types/message'));
+		if(types.customEmoji) this.registerType(require('./types/custom-emoji'));
+		if(types.defaultEmoji) this.registerType(require('./types/default-emoji'));
+		if(types.command) this.registerType(require('./types/command'));
+		if(types.group) this.registerType(require('./types/group'));
+		return this;
+	}
 }
 
 export default FrameRegistry;

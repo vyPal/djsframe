@@ -3,3 +3,10 @@
     - name: Welcome
       id: welcome
       path: ../../README.md
+    - name: First steps
+      id: first-steps
+      path: ./first-steps.md
+- name: Commands
+  files: 
+    - name: Built-in commands
+      path: ./builtins.md

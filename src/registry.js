@@ -128,21 +128,26 @@ class FrameRegistry {
   }
 
   /**
-   * Adds all the commands in the folder specified to the registry
-   * @param {String} dir - The folder to register commands in
-   * @returns {FrameRegistry} registry
-   */
-  registerCommandsInDir(dir) {
-    if(typeof dir !== 'string') throw new TypeError('dir must be a string');
-    fs.readdir(path.join(__dirname, this.commandsPath, dir), (err, files) => {
-      if(err) throw new Error('Error during reading directory: ' + dir);
-      files.forEach(file => {
-        let cmd = require(path.join(__dirname, this.commandsPath, dir, file));
-        this.registerCommand(cmd);
-      })
-    })
-    return this;
-  }
+	 * Registers all commands in a directory. The files must export a Command class constructor or instance.
+	 * @param {string|RequireAllOptions} options - The path to the directory, or a require-all options object
+	 * @return {FrameRegistry}
+	 * @example
+	 * const path = require('path');
+	 * registry.registerCommandsIn(path.join(__dirname, 'commands'));
+	 */
+	registerCommandsIn(options) {
+		const obj = require('require-all')(options);
+		const commands = [];
+		for(const group of Object.values(obj)) {
+			for(let command of Object.values(group)) {
+				if(typeof command.default === 'function') command = command.default;
+				commands.push(command);
+			}
+		}
+		if(typeof options === 'string' && !this.commandsPath) this.commandsPath = options;
+		else if(typeof options === 'object' && !this.commandsPath) this.commandsPath = options.dirname;
+		return this.registerCommands(commands, true);
+	}
 
   /**
    * Sets the folder in which all the command files are
@@ -186,7 +191,7 @@ class FrameRegistry {
 
 		/**
 		 * Emitted when an argument type is registered
-		 * @event CommandoClient#typeRegister
+		 * @event FrameClient#typeRegister
 		 * @param {ArgumentType} type - Argument type that was registered
 		 * @param {FrameRegistry} registry - Registry that the type was registered to
 		 */

@@ -12,7 +12,7 @@ class FrameClient extends Discord.Client {
    * Options for the new FrameClient
    * @typedef {Object} FrameClientOptions
    * @property {string} [commandPrefix=!] - Default prefix for the commands
-   * @property {Array<String>} [owners=[]] - An array of the bot's owners
+   * @property {Array<String>} owners - An array of the bot's owners
    */
 
   /**

@@ -6,6 +6,9 @@
     - name: First steps
       id: first-steps
       path: ./first-steps.md
+    - name: First command
+      id: first-command
+      path: ./first-command.md
 - name: Commands
   files: 
     - name: Built-in commands

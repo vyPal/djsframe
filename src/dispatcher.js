@@ -105,7 +105,7 @@ class CommandDispatcher {
 	 */
 	async handleMessage(message, oldMessage) {
 		/* eslint-disable max-depth */
-		if(!this.shouldHandleMessage(message, oldMessage)) return;
+		//if(!this.shouldHandleMessage(message, oldMessage)) return;
 
 		// Parse the message, and get the old result if it exists
 		let cmdMsg, oldCmdMsg;

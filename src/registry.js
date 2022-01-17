@@ -61,8 +61,8 @@ class FrameRegistry {
    * @returns {FrameRegistry} registry
    * @see {@link FrameRegistry#registerGroup}
    */
-  registerGroup(id, name, rcmds = true) {
-    let group = new FrameGroup(id, name);
+  registerGroup(id, name) {
+    let group = new FrameGroup(this.client, id, name);
     if(this.groups.has(id)) {
       this.client.emit('warn', `Group already registered: ${id}, skipping.`);
     }else {

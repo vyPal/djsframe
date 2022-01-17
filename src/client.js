@@ -87,8 +87,9 @@ class FrameClient extends Discord.Client {
    * @param {SQLiteProvider} provider - The new provider to set
    * @returns {FrameClient} client
    */
-  setProvider(provider) {
+  async setProvider(provider) {
     if(!provider instanceof SQLiteProvider) throw new TypeError('provider must be of type SQLiteProvider');
+    await provider.init(this);
     this.provider = provider;
     /**
      * When the provider for the client is changed
@@ -96,8 +97,7 @@ class FrameClient extends Discord.Client {
      * @param {FrameClient} client - The client that the provider was changed for
      * @param {SQLiteProvider} provider - The newly set provider
      */
-    this.emit('providerChange', this, provider);
-    this.provider.init(this);
+     this.emit('providerChange', this, provider);
     return this;
   }
 

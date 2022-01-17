@@ -75,7 +75,6 @@ class FrameRegistry {
        * @param {FrameRegistry} registry - The registry in which the group was registered
        */
       this.client.emit('groupRegister', group, this);
-      if(rcmds) this.registerCommandsInDir(id);
     }
     return this;
   }
@@ -285,7 +284,7 @@ class FrameRegistry {
 			unknownCommand: true,
 			commandState: true
 		}, commands);
-		
+
 		if(commands.help) this.registerCommand(require('./commands/util/help'));
     /*
 		if(commands.prefix) this.registerCommand(require('./commands/util/prefix'));

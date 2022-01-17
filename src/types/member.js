@@ -64,4 +64,4 @@ function memberFilterInexact(search) {
 		`${mem.user.username.toLowerCase()}#${mem.user.discriminator}`.includes(search);
 }
 
-export default MemberArgumentType;
+module.exports = MemberArgumentType;

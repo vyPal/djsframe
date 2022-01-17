@@ -21,4 +21,4 @@ class GroupArgumentType extends ArgumentType {
 	}
 }
 
-export default GroupArgumentType;
+module.exports = GroupArgumentType;

@@ -19,4 +19,4 @@ class DefaultEmojiArgumentType extends ArgumentType {
 	}
 }
 
-export default DefaultEmojiArgumentType;
+module.exports = DefaultEmojiArgumentType;

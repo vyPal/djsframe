@@ -20,4 +20,4 @@ class BooleanArgumentType extends ArgumentType {
 	}
 }
 
-export default BooleanArgumentType;
+module.exports = BooleanArgumentType;

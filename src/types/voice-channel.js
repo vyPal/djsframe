@@ -62,4 +62,4 @@ function channelFilterInexact(search) {
 	return chan => chan.type === 'voice' && chan.name.toLowerCase().includes(search);
 }
 
-export default VoiceChannelArgumentType;
+module.exports = VoiceChannelArgumentType;

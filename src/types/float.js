@@ -25,4 +25,4 @@ class FloatArgumentType extends ArgumentType {
 	}
 }
 
-export default FloatArgumentType;
+module.exports = FloatArgumentType;

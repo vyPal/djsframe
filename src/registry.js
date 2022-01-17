@@ -1,10 +1,10 @@
-import { Collection } from 'discord.js';
-import FrameCommand from './commands/command.js';
-import path from 'path';
-import fs from 'fs';
-import FrameGroup from './commands/group.js';
-import ArgumentType from './types/base.js';
-import { isConstructor } from './util.js';
+const { Collection } = require('discord.js');
+const FrameCommand = require('./commands/command.js');
+const path = require('path');
+const fs = require('fs');
+const FrameGroup = require('./commands/group.js');
+const ArgumentType = require('./types/base.js');
+const { isConstructor } = require('./util.js');
 
 /**
  * Class for registering and searching for commands and groups
@@ -277,10 +277,15 @@ class FrameRegistry {
 	 * @return {FrameRegistry}
 	 */
 	registerDefaultCommands(commands = {}) {
-		commands = {
-			help: true, prefix: true, ping: true, eval: true,
-			unknownCommand: true, commandState: true, ...commands
-		};
+		commands = Object.assign({}, {
+			help: true,
+			prefix: true,
+			eval: true,
+			ping: true,
+			unknownCommand: true,
+			commandState: true
+		}, commands);
+		
 		if(commands.help) this.registerCommand(require('./commands/util/help'));
     /*
 		if(commands.prefix) this.registerCommand(require('./commands/util/prefix'));
@@ -349,4 +354,4 @@ class FrameRegistry {
 	}
 }
 
-export default FrameRegistry;
+module.exports = FrameRegistry;

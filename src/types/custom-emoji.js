@@ -44,4 +44,4 @@ function nameFilterInexact(search) {
 	return emoji => emoji.name.toLowerCase().includes(search);
 }
 
-export default CustomEmojiArgumentType;
+module.exports = CustomEmojiArgumentType;

@@ -11,7 +11,7 @@ module.exports = class DemoCommand extends Command { // Creates a new class and 
   constructor(client) {
     super(client, {
       name: 'demo', // Sets the name of the command to demo (must be lowercase, no spaces alowed)
-      aliases: ['d'] // Creates a shortcut for the command
+      aliases: ['d'], // Creates a shortcut for the command
       group: 'util', // Sets the group of the command (must be equal to the group ID, NOT the name)
       memberName: 'Demo', // Sets the name to use in the settings menu (can be any case, and supports spaces)
       description: 'Just a demo command', // Sets a description of the command to use in the help command

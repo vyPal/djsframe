@@ -23,4 +23,4 @@ class StringArgumentType extends ArgumentType {
 	}
 }
 
-export default StringArgumentType;
+module.exports = StringArgumentType;

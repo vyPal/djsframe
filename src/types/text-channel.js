@@ -62,4 +62,4 @@ function channelFilterInexact(search) {
 	return chan => chan.type === 'text' && chan.name.toLowerCase().includes(search);
 }
 
-export default TextChannelArgumentType;
+module.exports = TextChannelArgumentType;

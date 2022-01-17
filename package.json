@@ -1,6 +1,6 @@
 {
   "name": "djsframe",
-  "version": "0.0.7",
+  "version": "0.1.2",
   "description": "A simple framework to interact with the Discord.js API",
   "main": "src/index.js",
   "scripts": {
@@ -23,12 +23,16 @@
     "url": "https://github.com/vyPal/djsframe/issues"
   },
   "homepage": "https://github.com/vyPal/djsframe#readme",
-  "type": "module",
   "devDependencies": {
-    "jsdoc-to-markdown": "^7.0.1"
+    "jsdoc-to-markdown": "^7.1.0"
   },
   "dependencies": {
+    "common-tags": "^1.8.2",
+    "discord.js": "^13.6.0",
     "docdash": "^1.2.0",
-    "jsdoc": "^3.6.7"
+    "is-promise": "^4.0.0",
+    "jsdoc": "^3.5.5",
+    "markdown-it": ">=12.3.2",
+    "marked": ">=4.0.10"
   }
 }

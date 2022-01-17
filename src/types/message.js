@@ -15,4 +15,4 @@ class MessageArgumentType extends ArgumentType {
 	}
 }
 
-export default MessageArgumentType;
+module.exports = MessageArgumentType;

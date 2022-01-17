@@ -1,7 +1,7 @@
-import Discord from 'discord.js';
-import FrameRegistry from './registry.js';
-import FrameDispatcher from './dispatcher.js';
-import SQLiteProvider from './providers/sqlite.js';
+const Discord = require('discord.js');
+const FrameRegistry = require('./registry.js');
+const FrameDispatcher = require('./dispatcher.js');
+const SQLiteProvider = require('./providers/sqlite.js');
 
 /**
  * Discord.js modified Client with a built-in command framework
@@ -21,7 +21,8 @@ class FrameClient extends Discord.Client {
   constructor(options = {}) {
     options = Object.assign({}, {
       prefix: '!',
-      owners: []
+      owners: [],
+      intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES]
     }, options);
     super(options);
     
@@ -112,8 +113,9 @@ class FrameClient extends Discord.Client {
   async login(token) {
     super.login(token);
     this.on('messageCreate', this.dispatcher.handleMessage);
+    this.on('messageUpdate', this.dispatcher.handleMessage);
     if(this.provider) this.provider.init(this);
   }
 }
 
-export default FrameClient;
+module.exports = FrameClient;

@@ -44,4 +44,4 @@ class ArgumentUnionType extends ArgumentType {
 	}
 }
 
-export default ArgumentUnionType;
+module.exports = ArgumentUnionType;

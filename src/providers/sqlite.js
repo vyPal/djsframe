@@ -189,4 +189,4 @@ class SQLiteProvider {
 	}
 }
 
-export default SQLiteProvider;
+module.exports = SQLiteProvider;

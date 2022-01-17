@@ -67,4 +67,4 @@ class ArgumentType {
 	}
 }
 
-export default ArgumentType;
+module.exports = ArgumentType;

@@ -62,4 +62,4 @@ function channelFilterInexact(search) {
 	return chan => chan.type === 'category' && chan.name.toLowerCase().includes(search);
 }
 
-export default CategoryChannelArgumentType;
+module.exports = CategoryChannelArgumentType;

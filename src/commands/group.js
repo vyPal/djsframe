@@ -36,4 +36,4 @@ class FrameGroup {
   }
 }
 
-export default FrameGroup;
+module.exports = FrameGroup;

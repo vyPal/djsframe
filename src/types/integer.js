@@ -25,4 +25,4 @@ class IntegerArgumentType extends ArgumentType {
 	}
 }
 
-export default IntegerArgumentType;
+module.exports = IntegerArgumentType;

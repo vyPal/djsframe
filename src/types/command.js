@@ -21,4 +21,4 @@ class CommandArgumentType extends ArgumentType {
 	}
 }
 
-export default CommandArgumentType;
+module.exports = CommandArgumentType;

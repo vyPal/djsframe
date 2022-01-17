@@ -49,4 +49,4 @@ function nameFilterInexact(search) {
 	return thing => thing.name.toLowerCase().includes(search);
 }
 
-export default ChannelArgumentType;
+module.exports = ChannelArgumentType;

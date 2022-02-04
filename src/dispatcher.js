@@ -105,7 +105,7 @@ class CommandDispatcher {
 	 */
 	async handleMessage(message, oldMessage) {
 		/* eslint-disable max-depth */
-		//if(!this.shouldHandleMessage(message, oldMessage)) return;
+		if(!this.shouldHandleMessage(message, oldMessage)) return;
 
 		// Parse the message, and get the old result if it exists
 		let cmdMsg, oldCmdMsg;
@@ -254,7 +254,7 @@ class CommandDispatcher {
 		}
 
 		// Find the command to run with default command handling
-		const prefix = message.guild ? message.guild.commandPrefix : this.client.commandPrefix;
+		const prefix = message.guild ? this.client.provider.get(message.guild.id, 'prefix', this.client.options.commandPrefix) : this.client.commandPrefix;
 		if(!this._commandPatterns[prefix]) this.buildCommandPattern(prefix);
 		let cmdMsg = this.matchDefault(message, this._commandPatterns[prefix], 2);
 		if(!cmdMsg && !message.guild) cmdMsg = this.matchDefault(message, /^([^\s]+)/i, 1, true);

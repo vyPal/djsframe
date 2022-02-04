@@ -1,6 +1,8 @@
 const Discord = require('discord.js');
 const FrameRegistry = require('./registry.js');
 const FrameDispatcher = require('./dispatcher.js');
+const FrameDispatcherOld = require('./dispatcher-old.js');
+const FrameMessage = require('./message.js');
 const SQLiteProvider = require('./providers/sqlite.js');
 
 /**
@@ -20,7 +22,7 @@ class FrameClient extends Discord.Client {
    */
   constructor(options = {}) {
     options = Object.assign({}, {
-      prefix: '!',
+      commandPrefix: '!',
       owners: [],
       intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES]
     }, options);
@@ -36,13 +38,23 @@ class FrameClient extends Discord.Client {
      * Dispatcher to use for handling commands
      * @type {FrameDispatcher}
      */
-    this.dispatcher = new FrameDispatcher(this, this.registry);
+    this.dispatcher = new FrameDispatcherOld(this, this.registry);
 
     /**
      * The database provider to use for storing settings
      * @type {SQLiteProvider}
      */
     this.provider = null;
+
+    this.on('messageCreate', msg => {
+      let message = Object.setPrototypeOf(msg, FrameMessage);
+      this.dispatcher.handleMessage(message);
+    });
+    this.on('messageUpdate', (oldMsg, newMsg) => {
+      let newMessage = Object.setPrototypeOf(newMsg, FrameMessage);
+      let oldMessage = Object.setPrototypeOf(oldMsg, FrameMessage);
+      this.dispatcher.handleMessage(newMessage, oldMessage);
+    })
   }
 
   /**
@@ -112,8 +124,6 @@ class FrameClient extends Discord.Client {
 
   async login(token) {
     super.login(token);
-    this.on('messageCreate', this.dispatcher.handleMessage);
-    this.on('messageUpdate', this.dispatcher.handleMessage);
     if(this.provider) this.provider.init(this);
   }
 }

@@ -124,6 +124,7 @@ class FrameClient extends Discord.Client {
 
   async login(token) {
     super.login(token);
+    if(this.provider) this.provider.init(this);
   }
 }
 

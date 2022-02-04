@@ -29,7 +29,7 @@ client.registry
   .registerDefaults()
 
   // Reads through all your command files in the 'commands' folder
-  .registerCommandsIn(path.join(__dirname, 'commands'))
+  .registerCommandsIn(path.join(__dirname, 'commands'));
 ```
 
 Just like commando, DJSFrame also has a settings provider, that uses SQLite (More database types coming soon!) I would highly recomend, that you set one up, but it is not a necessary step. To do it, you will have to install 2 NPM packages, `sqlite`, and `sqlite3` (Both are required) `npm install --save sqlite sqlite3`. After you've done that, you can setup the database like this:
@@ -37,9 +37,9 @@ Just like commando, DJSFrame also has a settings provider, that uses SQLite (Mor
 const sqlite = require('sqlite');
 const sqlite3 = require('sqlite3');
 
-client.setProvider(
-    sqlite.open({ filename: 'database.db', driver: sqlite3.Database }).then(db => new Frame.SQLiteProvider(db))
-).catch(console.error);
+sqlite.open({ filename: 'database.db', driver: sqlite3.Database }).then(db => {
+    client.setProvider(new SQLiteProvider(db));
+});
 ```
 
 And yes, you are almost at the end, the last step is loging in to your bot. Do it just like you would in any other Discord.js bot:

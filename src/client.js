@@ -81,7 +81,7 @@ class FrameClient extends Discord.Client {
    * @returns {FrameClient} client
    */
    setDispatcher(dsp) {
-    if(!reg instanceof FrameDispatcher) throw new TypeError('dsp must be of type FrameDispathcer');
+    if(!dsp instanceof FrameDispatcher) throw new TypeError('dsp must be of type FrameDispathcer');
     this.dispatcher = dsp;
 
     /**

@@ -98,20 +98,46 @@ class FrameRegistry {
    * @param {FrameCommand} command - The command to add to the registry
    * @returns {FrameRegistry} registry
    */
-  registerCommand(command) {
-    if(!command instanceof FrameCommand) throw new TypeError('command must be a Command');
-    let cmd = new command(this.client);
-    this.commands.set(cmd.name, cmd);
+   registerCommand(command) {
+		/* eslint-disable new-cap */
+		if(isConstructor(command, FrameCommand)) command = new command(this.client);
+		else if(isConstructor(command.default, FrameCommand)) command = new command.default(this.client);
+		/* eslint-enable new-cap */
+		if(!(command instanceof FrameCommand)) throw new Error(`Invalid command object to register: ${command}`);
 
-    /**
-     * Emmited when a new command is registered
-     * @event FrameClient#commandRegister
-     * @param {FrameCommand} command - The command that was registered
-     * @param {FrameRegistry} registry - The registry in which the command was registered
-     */
-    this.client.emit('commandRegister', cmd, this);
-    return this;
-  }
+		// Make sure there aren't any conflicts
+		if(this.commands.some(cmd => cmd.name === command.name || cmd.aliases.includes(command.name))) {
+			throw new Error(`A command with the name/alias "${command.name}" is already registered.`);
+		}
+		for(const alias of command.aliases) {
+			if(this.commands.some(cmd => cmd.name === alias || cmd.aliases.includes(alias))) {
+				throw new Error(`A command with the name/alias "${alias}" is already registered.`);
+			}
+		}
+		const group = this.groups.find(grp => grp.id === command.group);
+		if(!group) throw new Error(`Group "${command.group}" is not registered.`);
+		if(group.commands.some(cmd => cmd.memberName === command.memberName)) {
+			throw new Error(`A command with the member name "${command.memberName}" is already registered in ${group.id}`);
+		}
+		if(command.unknown && this.unknownCommand) throw new Error('An unknown command is already registered.');
+
+		// Add the command
+		command.group = group;
+		group.commands.set(command.name, command);
+		this.commands.set(command.name, command);
+		if(command.unknown) this.unknownCommand = command;
+
+		/**
+		 * Emitted when a command is registered
+		 * @event FrameClient#commandRegister
+		 * @param {FrameCommand} command - Command that was registered
+		 * @param {FrameRegistry} registry - Registry that the command was registered to
+		 */
+		this.client.emit('commandRegister', command, this);
+		this.client.emit('debug', `Registered command ${group.id}:${command.memberName}.`);
+
+		return this;
+	}
 
   /**
    * Adds multiple commands to the registry with one command

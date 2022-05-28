@@ -1,7 +1,7 @@
 /**
  * Class for handling and running commands
  */
-class FrameDispatcher {
+ class FrameDispatcher {
   /**
    * Creates a dispatcher
    * @param {FrameClient} client - The client for which the dispatcher is being created
@@ -20,11 +20,11 @@ class FrameDispatcher {
   handleMessage(message) {
     if(message.author.bot) return false;
     if(this.client.provider.get('global', 'user-blacklist', []).some(id => message.author.id === id)) return false;
-    let prefix = this.client.provider.get(message.guild.id, 'prefix', this.client.options.prefix);
-    if(message.content.startswith(prefix)) {
+    let prefix = this.client.provider.get(message.guild.id, 'prefix', this.client.options.commandPrefix);
+    if(message.content.startsWith(prefix)) {
       return this.handleCommand(message, 1, prefix);
     }
-    if(message.metnions.has(this.client.user.id)) {
+    if(message.mentions.has(this.client.user.id)) {
       return this.handleCommand(message, 2);
     }
   }
@@ -50,7 +50,7 @@ class FrameDispatcher {
       let args = message.content.split(' ');
       let commandName = args[0].slice(prefix.length);
       args = args.slice(1);
-      let command = this.client.registry.commands.get(commandName.toLowerCase());
+      let command = this.registry.commands.get(commandName.toLowerCase());
       command.info.clientPermissions.forEach((perm) => {
         if(!message.guild.me.permissions.has(perm)) return false;
       });
